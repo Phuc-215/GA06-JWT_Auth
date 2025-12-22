@@ -9,18 +9,18 @@ import Me from './Me';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 function App() {
-  const apiUrl = 'http://localhost:4000';
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
   const [apiKey, setApiKey] = useState(localStorage.getItem('token'));
 
   return (
     <ApiContext.Provider value={{ url: apiUrl, key: apiKey, setKey: setApiKey }}>
       <Router>
         <Routes>
-          <Route path='/' element={<ListOrders />}></Route>
+          <Route path='/orders' element={<ListOrders />}></Route>
           <Route path='/register' element={<Register />}></Route>
           <Route path='/login' element={<Login />}></Route>
           <Route path='/activate' element={<Activate />}></Route>
-          <Route path='/me' element={<Me />}></Route>
+          <Route path='/' element={<Me />}></Route>
         </Routes>
       </Router>
     </ApiContext.Provider>

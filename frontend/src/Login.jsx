@@ -48,7 +48,7 @@ export default function Login() {
         api.setKey(json.token);
         // For next page load
         localStorage.setItem('token', json.token);
-        navigate('/me', { replace: true });
+        navigate('/', { replace: true });
       } else {
         alert('Something went wrong! Please try again!');
         console.error(result);
