@@ -1,34 +1,37 @@
-// import sgMail from '@sendgrid/mail'
+// email.js
 import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
 
 dotenv.config();
 
-const EMAIL_FROM = process.env.EMAIL_FROM;
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
+// Cấu hình dùng Port 465 (SSL)
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // use STARTTLS (upgrade connection to TLS after connecting)
+  port: 465,          // Đổi từ 587 sang 465
+  secure: true,       // Đổi false thành true cho port 465
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-  tls: {
-      rejectUnauthorized: false
-  }
+  // Thêm logger để xem chi tiết lỗi trên Render logs nếu vẫn fail
+  logger: true,
+  debug: true,
 });
 
 const service = {
   send: async function (to, subject, text) {
-    await transporter.sendMail({
-      from: EMAIL_FROM, // sender address
-      to, // list of recipients
-      subject, // subject line
-      text, // plain text body
-    });
-
+    try {
+      await transporter.sendMail({
+        from: process.env.EMAIL_FROM, // Dùng biến môi trường
+        to,
+        subject,
+        text,
+      });
+      console.log(`Email sent to ${to}`);
+    } catch (error) {
+      console.error("Email send error:", error);
+      // Quan trọng: Không throw lỗi để tránh crash server nếu mail lỗi
+    }
   },
 };
 
