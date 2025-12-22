@@ -9,7 +9,7 @@ import Me from './Me';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 
 function App() {
-  const apiUrl = "http://localhost:4000";
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:4000";
   const [apiKey, setApiKey] = useState(localStorage.getItem('token'));
 
   return (
