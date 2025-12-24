@@ -3,17 +3,15 @@ import dotenv from 'dotenv'
 
 dotenv.config();
 
-console.log("DEBUG SMTP_USER:", process.env.SMTP_USER); 
-console.log("DEBUG SMTP_PASS Length:", process.env.SMTP_PASS ? process.env.SMTP_PASS.length : "Undefined");
-
 const transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
   port: 587,
-  secure: false,
+  secure: false, 
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  family: 4, // Ép buộc dùng IPv4 để tránh lỗi timeout IPv6 trên Render
 });
 
 const service = {
