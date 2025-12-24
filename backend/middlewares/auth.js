@@ -1,7 +1,6 @@
 import authService from '../services/auth.js';
 
 export default async function (req, res, next) {
-  console.log("Authentication");
   const authorization = req.header('Authorization');
   // Authorization: Bearer ey...
   const token = authorization?.replace('Bearer ', '');
